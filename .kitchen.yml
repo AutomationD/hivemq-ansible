@@ -1,0 +1,33 @@
+---
+driver:
+  name: docker
+  use_sudo: false
+
+provisioner:
+  hosts: hivemq
+  name: ansible_playbook
+  ansible_verbosity: 2
+  ansible_verbose: true
+  ansible_apt_repo: ppa:ansible/ansible
+  require_chef_for_busser: false
+  require_ruby_for_busser: true
+  indepotency_test: true
+  require_ansible_repo: true
+  ansible_verbose: true
+  ansible_version: "2.1.0.0-1ppa~xenial"
+  ansible_inventory:
+
+platforms:
+  - name: default
+    driver_plugin: docker
+    driver_config:
+      image: ubuntu:16.04
+      platform: ubuntu
+
+suites:
+  - name: default
+    publish_all: true
+    instance_name: default
+
+verifier:
+  ruby_bindir: '/usr/bin'

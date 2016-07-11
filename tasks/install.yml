@@ -1,0 +1,80 @@
+---
+
+- name: Install JRE
+  package:
+    name: "{{ jre_package }}"
+
+- name: Install pip packages
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - boto
+    - awscli
+
+- name: Install Supervisor
+  package:
+    name: supervisor
+
+- name: Start supervisor service
+  service:
+    name: supervisor
+    state: started
+
+- name: Add group
+  group:
+    name: "{{ hivemq_group }}"
+    system: yes
+
+- name: Add user
+  user:
+    name: "{{ hivemq_user }}"
+    group: "{{ hivemq_group }}"
+    shell: /sbin/nologin
+    system: yes
+
+- name: Download archive
+  get_url:
+    url: "{{ hivemq_url }}"
+    dest: "{{ hivemq_parent_dir }}/hivemq-{{ hivemq_version}}.zip"
+    timeout: 30
+
+- name: Extract the tarball
+  unarchive:
+    src: "{{ hivemq_parent_dir }}/hivemq-{{ hivemq_version}}.zip"
+    dest: "{{ hivemq_parent_dir }}/"
+    copy: no
+    creates: "{{ hivemq_parent_dir }}/hivemq-{{ hivemq_version}}"
+
+- name: Symlink install directory
+  file:
+    src: "{{ hivemq_parent_dir }}/hivemq-{{ hivemq_version}}/"
+    path: "{{ hivemq_dir }}"
+    state: link
+
+- name: Set permissions to the folder
+  file:
+    path: "{{ hivemq_dir }}/"
+    owner: "{{ hivemq_user }}"
+    group: "{{ hivemq_group }}"
+    recurse: yes
+
+- name: Create log directory
+  file:
+    path: "{{ hivemq_log_dir }}/"
+    state: directory
+    owner: "{{ hivemq_user}}"
+    group: "{{ hivemq_group }}"
+  when: not configs_from_s3
+
+- name: Create conf directory
+  file:
+    path: "{{ hivemq_config_dir }}/"
+    state: directory
+    owner: root
+    group: root
+    mode: 755
+  when: not configs_from_s3
+
+
+- meta: flush_handlers
+

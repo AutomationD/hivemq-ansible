@@ -1,0 +1,13 @@
+---
+- hosts: all
+  tasks:
+    - name: Install Prerequisites
+      apt:
+        name: "{{ item }}"
+      with_items:
+        - python-pip
+        - unzip
+
+- hosts: all
+  roles:
+    - hivemq-ansible

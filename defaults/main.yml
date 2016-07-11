@@ -1,0 +1,31 @@
+---
+
+hivemq_version: 3.0.2
+hivemq_url: "https://s3.amazonaws.com/sitewhere-hivemq/hivemq-{{ hivemq_version }}.zip"
+jre_package: openjdk-8-jre-headless
+
+hivemq_user: hivemq
+hivemq_group: hivemq
+
+hivemq_parent_dir: /opt
+hivemq_dir: "{{ hivemq_parent_dir }}/hivemq"
+hivemq_log_dir: "{{ hivemq_dir }}/log"
+hivemq_config_dir: "{{ hivemq_dir }}/conf"
+
+
+# In case we would like to use s3 bucket as the source of configs
+configs_from_s3: yes
+
+# Set this to 'yes' if you need to update your configs from s3
+hivemq_config_refresh: no
+
+hivemq_object_prefix: hivemq/config
+#hivemq_config_bucket: "<__>"
+#hivemq_boto_profile: "<__>"
+hivemq_aws_region: us-west-2
+
+hivemq_config_dirs:
+  - conf
+  - license
+  - plugins
+  - cert

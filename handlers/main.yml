@@ -1,0 +1,14 @@
+---
+
+- name: reload supervisor
+  command: supervisorctl reload
+
+- name: restart supervisor
+  service:
+    name: supervisor
+    state: restarted
+
+- name: restart hivemq
+  supervisorctl:
+    name: hivemq
+    state: restarted

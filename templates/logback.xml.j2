@@ -1,0 +1,24 @@
+<configuration scan="true" scanPeriod="60 seconds">
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%-30(%d %level)- %msg%n%ex</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="migrations" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <logger name="org.quartz" level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <logger name="jetbrains.exodus" level="WARN"/>
+    <logger name="com.google.common.util.concurrent.Futures.CombinedFuture" level="OFF"/>
+
+</configuration>

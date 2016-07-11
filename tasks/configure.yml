@@ -1,0 +1,35 @@
+---
+
+- name: Install supervisor config
+  template:
+    src: supervisord.conf.j2
+    dest: /etc/supervisor/supervisord.conf
+    mode: 0644
+  notify:
+    - reload supervisor
+
+- meta: flush_handlers
+
+- name: create config.xml
+  template:
+    dest: "{{ hivemq_config_dir }}/config.xml"
+    owner: "{{ hivemq_user }}"
+    group: "{{ hivemq_group }}"
+    mode: 0644
+    src: config.xml.j2
+  notify:
+    - restart hivemq
+  when: not configs_from_s3
+
+- name: create logback.xml
+  template:
+    dest: "{{ hivemq_config_dir }}/logback.xml"
+    owner: "{{ hivemq_user }}"
+    group: "{{ hivemq_group }}"
+    mode: 0640
+    src: logback.xml.j2
+  notify:
+    - restart hivemq
+  when: not configs_from_s3
+
+
