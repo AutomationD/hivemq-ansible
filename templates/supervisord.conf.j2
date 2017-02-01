@@ -20,7 +20,7 @@ logfile_backups=10
 
 [program:hivemq]
 user={{ hivemq_user }}
-command=java -Xmx{{ hivemq_heap }}m -Xms{{ hivemq_heap }}m -Dhivemq.home={{ hivemq_dir }} -Dhivemq.license.folder={{ hivemq_license_dir }} -Dhivemq.log.folder={{ hivemq_log_dir }} -Dhivemq.config.folder={{ hivemq_config_dir }} -Dhivemq.plugin.folder={{ hivemq_plugin_dir }} -Dhivemq.data.folder={{ hivemq_data_dir }} -Djava.net.preferIPv4Stack=true -XX:-UseSplitVerifier -noverify -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath={{ hivemq_dir }}/heap-dump.hprof -jar {{ hivemq_dir }}/bin/hivemq.jar
+command=java {{ hivemq_java_opts }} -Xmx{{ hivemq_heap }}m -Xms{{ hivemq_heap }}m -Dhivemq.home={{ hivemq_dir }} -Dhivemq.license.folder={{ hivemq_license_dir }} -Dhivemq.log.folder={{ hivemq_log_dir }} -Dhivemq.config.folder={{ hivemq_config_dir }} -Dhivemq.plugin.folder={{ hivemq_plugin_dir }} -Dhivemq.data.folder={{ hivemq_data_dir }} -Djava.net.preferIPv4Stack=true -XX:-UseSplitVerifier -noverify -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath={{ hivemq_dir }}/heap-dump.hprof -jar {{ hivemq_dir }}/bin/hivemq.jar
 autostart=true
 autorestart=true
 redirect_stderr=true

@@ -19,6 +19,9 @@ hivemq_cert_dir: "{{ hivemq_dir }}/cert"
 
 hivemq_heap: "{{ (ansible_memtotal_mb / 2) | int }}"
 
+# Use this parameter if you need extra options
+hivemq_java_opts:
+
 # In case we would like to use s3 bucket as the source of configs
 configs_from_s3: yes
 
