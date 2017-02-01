@@ -11,6 +11,11 @@ hivemq_parent_dir: /opt
 hivemq_dir: "{{ hivemq_parent_dir }}/hivemq"
 hivemq_log_dir: "{{ hivemq_dir }}/log"
 hivemq_config_dir: "{{ hivemq_dir }}/conf"
+hivemq_data_dir: "{{ hivemq_dir }}/data"
+hivemq_plugin_dir: "{{ hivemq_dir }}/plugins"
+hivemq_license_dir: "{{ hivemq_dir }}/license"
+# Not used
+hivemq_cert_dir: "{{ hivemq_dir }}/cert"
 
 hivemq_heap: "-Xmx{{ (ansible_memtotal_mb / 2) | int }}"
 
