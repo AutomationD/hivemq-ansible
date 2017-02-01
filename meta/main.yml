@@ -1,13 +1,18 @@
 ---
+dependencies: []
 
 galaxy_info:
-  author: "Dmitry Kireev"
-  description: "Installs HiveMQ Cluster."
-  license: MIT
+  author: kireevco
+  description: HiveMQ for Linux.
+  license: "license (MIT)"
   min_ansible_version: 2.0
   platforms:
-    - name: Ubuntu
-      versions:
-        - all
-  categories:
-    - development
+  - name: Ubuntu
+    versions:
+    - precise
+    - trusty
+    - xenial
+  galaxy_tags:
+    - mqtt
+    - iot
+    - queue

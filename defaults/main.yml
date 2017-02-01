@@ -12,6 +12,7 @@ hivemq_dir: "{{ hivemq_parent_dir }}/hivemq"
 hivemq_log_dir: "{{ hivemq_dir }}/log"
 hivemq_config_dir: "{{ hivemq_dir }}/conf"
 
+hivemq_heap: "-Xmx{{ (ansible_memtotal_mb / 2) | int }}"
 
 # In case we would like to use s3 bucket as the source of configs
 configs_from_s3: yes
