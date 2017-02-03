@@ -14,3 +14,9 @@
   include: s3-sync.yml
   tags:
     - configure
+
+- name: Wait for HiveMQ to start
+  wait_for:
+    host: "{{ ansible_ssh_host | default(inventory_hostname) }}"
+    port: "{{ hivemq_port }}"
+    state: started

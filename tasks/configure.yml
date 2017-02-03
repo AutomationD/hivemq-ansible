@@ -31,9 +31,3 @@
   notify:
     - restart hivemq
   when: not configs_from_s3
-
-- name: Wait for HiveMQ to start
-  wait_for:
-    host: "{{ ansible_ssh_host | default(inventory_hostname) }}"
-    port: "{{ hivemq_port }}"
-    state: started
