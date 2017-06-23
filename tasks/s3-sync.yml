@@ -9,11 +9,18 @@
   when: configs_from_s3 and hivemq_config_refresh
 
 - name: Sync S3 config
-  command: "aws s3 sync s3://{{ hivemq_config_bucket }}/{{ hivemq_object_prefix }}/{{ item }} {{ hivemq_dir }}/{{ item }}/"
+  command: "aws s3 sync --delete s3://{{ hivemq_config_bucket }}/{{ hivemq_object_prefix }}/{{ item }} {{ hivemq_dir }}/{{ item }}/"
   args:
     creates: "{{ hivemq_dir }}/{{ item }}/"
   with_items: "{{ hivemq_config_dirs }}"
   when: configs_from_s3 and hivemq_config_refresh
+  notify: restart hivemq
+
+- name: Sync S3 cert
+  command: "aws s3 sync --delete s3://{{ hivemq_config_bucket }}/{{ hivemq_object_prefix }}/{{ item }} {{ hivemq_dir }}/{{ item }}/"
+  with_items:
+    - cert
+  when: configs_from_s3 and hivemq_cert_refresh
 
 - name: S3 Permissions
   file:
@@ -23,5 +30,4 @@
     group: "{{ hivemq_group }}"
     recurse: yes
   with_items: "{{ hivemq_config_dirs }}"
-  when: configs_from_s3 and hivemq_config_refresh
-  notify: restart hivemq
+  when: configs_from_s3 and ( hivemq_config_refresh or hivemq_cert_refresh )

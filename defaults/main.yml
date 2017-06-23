@@ -20,6 +20,7 @@ hivemq_license_dir: "{{ hivemq_dir }}/license"
 hivemq_cert_dir: "{{ hivemq_dir }}/cert"
 
 hivemq_heap: "{{ (ansible_memtotal_mb / 2) | int }}"
+hivemq_security_egd: "-Djava.security.egd=file:/dev/./urandom"
 
 # Use this parameter if you need extra options
 hivemq_java_opts:
@@ -29,6 +30,9 @@ configs_from_s3: yes
 
 # Set this to 'yes' if you need to update your configs from s3
 hivemq_config_refresh: no
+
+# Set this to 'yes' if you need to update your certs from s3
+hivemq_cert_refresh: no
 
 hivemq_object_prefix: hivemq/config
 #hivemq_config_bucket: "<__>"

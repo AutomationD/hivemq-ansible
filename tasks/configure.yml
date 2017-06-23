@@ -1,15 +1,4 @@
 ---
-
-- name: Install supervisor config
-  template:
-    src: supervisord.conf.j2
-    dest: /etc/supervisor/supervisord.conf
-    mode: 0644
-  notify:
-    - reload supervisor
-
-- meta: flush_handlers
-
 - name: create config.xml
   template:
     dest: "{{ hivemq_config_dir }}/config.xml"
@@ -31,3 +20,26 @@
   notify:
     - restart hivemq
   when: not configs_from_s3
+
+- name: Check if config.xml exists
+  stat:
+    path: "{{ hivemq_parent_dir }}/hivemq-{{ hivemq_version}}/conf/config.xml"
+  register: config_file
+
+- name: Initial S3 Sync
+  include: s3-sync.yml
+  vars:
+    hivemq_config_refresh: true
+  when: (not config_file.stat.exists) and configs_from_s3
+  tags:
+    - configure
+
+- name: Install supervisor config
+  template:
+    src: supervisord.conf.j2
+    dest: /etc/supervisor/supervisord.conf
+    mode: 0644
+  notify:
+    - reload supervisor
+
+- meta: flush_handlers

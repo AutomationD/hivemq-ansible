@@ -15,7 +15,7 @@
   tags:
     - configure
 
-- name: Wait for HiveMQ to start
+- name: Ensure for HiveMQ is started
   wait_for:
     host: "{{ ansible_ssh_host | default(inventory_hostname) }}"
     port: "{{ hivemq_port }}"
